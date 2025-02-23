@@ -1,9 +1,8 @@
 const { MongoClient } = require("mongodb");
-const dotenv = require('dotenv');
+require('dotenv').config();
 
-dotenv.config();
-const mongo_url = process.env.MONGO_URI || 'mongodb+srv://akmauryadev:hkS2bfUgkdpIKJmd@dbnew.7yesf.mongodb.net/userdb?retryWrites=true&w=majority';
-const dbName = process.env.DB_NAME || "userdb";
+const mongo_url = process.env.MONGO_URI;
+const dbName = process.env.DB_NAME;
 
 async function connectDB() {
   let client;
