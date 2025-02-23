@@ -1,8 +1,9 @@
 const jwt = require("jsonwebtoken");
+const env_config = require('../config/cred')
 module.exports = (req, res, next) => {
   try {
     const token = req.header("Authorization").replace("Bearer ", "");
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, env_config.JWT_SECRET);
     req.user = decoded;
     next();
   } catch (error) {

@@ -1,8 +1,9 @@
 const { MongoClient } = require("mongodb");
 require('dotenv').config();
+const env_config = require('./cred')
 
-const mongo_url = process.env.MONGO_URI;
-const dbName = process.env.DB_NAME;
+const mongo_url = env_config.MONGO_URI;
+const dbName = env_config.DB_NAME;
 
 async function connectDB() {
   let client;

@@ -5,8 +5,10 @@ const Registration = require("../models/registration");
 const { default: mongoose } = require("mongoose");
 const router = express.Router();
 require('dotenv').config();
+const env_config = require('../config/cred')
 
-const mongo_url = process.env.MONGO_URI;
+
+const mongo_url = env_config.MONGO_URI;
 
 //---------------------------------register user--------------------------
 router.post("/register", async (req, res) => {
@@ -48,7 +50,7 @@ router.post("/login", async (req, res) => {
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
-    const token = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ userId: user._id, email: user.email }, env_config.JWT_SECRET, {
       expiresIn: "1h",
     });
 
