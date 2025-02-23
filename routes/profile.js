@@ -7,16 +7,12 @@ const path = require("path");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/"); // Destination folder
+    cb(null, "uploads/");
   },
   filename: (req, file, cb) => {
-    // Get the file extension from the original file name
     const ext = path.extname(file.originalname);
-
-    // Generate a unique filename using epoch time (milliseconds since January 1, 1970) + file extension
-    const uniqueFilename = `${Date.now()}${ext}`;
-
-    cb(null, uniqueFilename); // Save the file with the unique name
+    const uniqueFilename = `${Date.now()}${ext}-${file.originalname}`;
+    cb(null, uniqueFilename); 
   },
 });
 
