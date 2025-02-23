@@ -8,6 +8,12 @@ const app = express();
 const path = require("path");
 const fs = require('fs');
 const env_config = require('./config/cred')
+const cors = require('cors');
+app.use(cors());
+
+app.get('/test', (req, res) => {
+    res.json({ message: 'Hello, World!' });
+  });
 
 
 // upload directory 
