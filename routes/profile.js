@@ -1,0 +1,62 @@
+const express = require("express");
+const multer = require("multer");
+const Profile = require("../models/profile");
+const auth = require("../middleware/auth");
+const router = express.Router();
+const path = require("path");
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/"); // Destination folder
+  },
+  filename: (req, file, cb) => {
+    // Get the file extension from the original file name
+    const ext = path.extname(file.originalname);
+
+    // Generate a unique filename using epoch time (milliseconds since January 1, 1970) + file extension
+    const uniqueFilename = `${Date.now()}${ext}`;
+
+    cb(null, uniqueFilename); // Save the file with the unique name
+  },
+});
+
+const upload = multer({
+  storage: storage, 
+});
+
+//-----------------------------create profile--------------------------
+router.post(
+  "/profile",
+  auth,
+  upload.single("profileImage"),
+  async (req, res) => {
+    try {
+      const { name, about } = req.body;
+      const profileImage = req.file ? req.file.filename : null;
+      const profile = new Profile({
+        user: req.user.userId,
+        name,
+        about,
+        profileImage,
+      });
+      await profile.save();
+      res.status(201).json(profile);
+    } catch (error) {
+      res.status(500).json({ message: "Error creating profile" });
+    }
+  }
+);
+
+//-----------------------------get profile--------------------------
+router.get("/profile", auth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user.userId });
+    if (!profile) {
+      return res.status(404).json({ message: "Profile not found" });
+    }
+    res.json(profile);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching profile" });
+  }
+});
+module.exports = router;
