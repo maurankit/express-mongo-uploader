@@ -1,5 +1,5 @@
 module.exports = {
-  PORT: 3000,
+  PORT: 8080,
   MONGO_URI:
     "mongodb+srv://akmauryadev:hkS2bfUgkdpIKJmd@dbnew.7yesf.mongodb.net/userdb?retryWrites=true&w=majority",
   JWT_SECRET: "jwt-secret",
