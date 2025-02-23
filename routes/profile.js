@@ -27,22 +27,38 @@ router.post(
   upload.single("profileImage"),
   async (req, res) => {
     try {
-      console.log('inside profile update')
+      console.log('inside profile update');
+
       const { name, about } = req.body;
       const profileImage = req.file ? req.file.filename : null;
-      const profile = new Profile({
-        user: req.user.userId,
-        name,
-        about,
-        profileImage,
-      });
-      await profile.save();
-      res.status(201).json(profile);
+
+      let profile = await Profile.findOne({ user: req.user.userId });
+
+      if (profile) {
+        profile.name = name;
+        profile.about = about;
+        if (profileImage) {
+          profile.profileImage = profileImage;
+        }
+        await profile.save();
+      } else {
+        profile = new Profile({
+          user: req.user.userId,
+          name,
+          about,
+          profileImage,
+        });
+        await profile.save();
+      }
+
+      res.status(200).json(profile);
     } catch (error) {
-      res.status(500).json({ message: "Error creating profile" });
+      console.error(error);
+      res.status(500).json({ message: "Error creating or updating profile" });
     }
   }
 );
+
 
 //-----------------------------get profile--------------------------
 router.get("/profile", auth, async (req, res) => {
