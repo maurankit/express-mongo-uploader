@@ -14,6 +14,7 @@ const mongo_url = env_config.MONGO_URI;
 router.post("/register", async (req, res) => {
   const { email, password, confirmPassword } = req.body;
   try {
+    console.log('--------inside regisiter---------')
     if (password !== confirmPassword) {
       return res.status(400).json({ message: "Password and confirm password do not match." });
     }
@@ -43,6 +44,7 @@ router.post("/register", async (req, res) => {
 //---------------------------------login user--------------------------
 router.post("/login", async (req, res) => {
   try {
+console.log('------------inside login api---------');
     const { email, password } = req.body;
     await mongoose.connect(mongo_url, { useNewUrlParser: true, useUnifiedTopology: true });
 

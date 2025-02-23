@@ -31,6 +31,7 @@ router.post(
   upload.single("profileImage"),
   async (req, res) => {
     try {
+      console.log('inside profile update')
       const { name, about } = req.body;
       const profileImage = req.file ? req.file.filename : null;
       const profile = new Profile({
@@ -50,6 +51,7 @@ router.post(
 //-----------------------------get profile--------------------------
 router.get("/profile", auth, async (req, res) => {
   try {
+    console.log('insid profile request')
     const profile = await Profile.findOne({ user: req.user.userId });
     if (!profile) {
       return res.status(404).json({ message: "Profile not found" });

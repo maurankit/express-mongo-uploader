@@ -31,6 +31,7 @@ router.post(
   ]),
   async (req, res) => {
     try {
+      console.log('inside video upload')
       const { title, description } = req.body;
       const video = new Video({
         user: req.user.userId,
@@ -51,6 +52,7 @@ router.post(
 //-----------------------------get videos--------------------------
 router.get("/videos", auth, async (req, res) => {
   try {
+    console.log('get videos')
     let data
     if(req.query.id){
       console.log("req.query.id", req.query.id);
