@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 const mongo_url = process.env.MONGO_URI || 'mongodb+srv://akmauryadev:hkS2bfUgkdpIKJmd@dbnew.7yesf.mongodb.net/userdb?retryWrites=true&w=majority';
-const dbName = process.env.DB_NAME;
+const dbName = process.env.DB_NAME || "userdb";
 
 async function connectDB() {
   let client;

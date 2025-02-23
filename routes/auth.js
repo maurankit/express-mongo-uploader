@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const Registration = require("../models/registration");
 const { default: mongoose } = require("mongoose");
 const router = express.Router();
-const mongo_url = process.env.MONGO_URI;
+const mongo_url = process.env.MONGO_URI || 'mongodb+srv://akmauryadev:hkS2bfUgkdpIKJmd@dbnew.7yesf.mongodb.net/userdb?retryWrites=true&w=majority';
 
 //---------------------------------register user--------------------------
 router.post("/register", async (req, res) => {
